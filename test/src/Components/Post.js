@@ -59,8 +59,8 @@ function Post({id, profilePic, image, username, timestamp, message, likedBy, com
             </div>
 
             <div className="post__options">
-                <div className="post__option">
-                    <ThumbUpIcon onClick={like}/>
+                <div className="post__option" onClick={like}> 
+                    <ThumbUpIcon/>
                     <p>Like</p>
                 </div>
                 <div className="post__option">
