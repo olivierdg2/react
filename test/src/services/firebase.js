@@ -2,8 +2,6 @@ import firebase from "firebase/app";
 
 import "firebase/auth";
 import "firebase/firestore";
-import dotenv from 'dotenv';
-dotenv.config()
 
 firebase.initializeApp({
   apiKey: "AIzaSyBChg4mZR3UrUtEye-iG9vuYO7SISkazsc",
@@ -16,20 +14,9 @@ firebase.initializeApp({
 
 });
 
-export const auth = firebase.auth();
-const googleProvider = new firebase.auth.GoogleAuthProvider()
-export const signInWithGoogle = () => {
-  auth.signInWithPopup(googleProvider).then((res) => {
-    // user object
-    console.log(res.user)
-  }).catch((error) => {
-    console.log(error.message)
-  })
-}
-export const logOut = () => {
-  auth.signOut().then(()=> {
-    console.log('logged out');
-  }).catch((error) => {
-    console.log(error.message);
-  })
-}
+const db = firebase.firestore();
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+export {auth, provider};
+export default db;

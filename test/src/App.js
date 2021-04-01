@@ -1,28 +1,28 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css"
-import Navbar from "./Navbar"
-import Login from "./Login";
-import Dashboard from "./Dashboard";
-import UserProvider from "./providers/UserProvider";
-import { Redirect } from 'react-router-dom';
+import Header from "./Components/Header";
+import Feed from "./Components/Feed";
+import Login from "./Components/Login";
+import { useStateValue } from "./StateProvider";
+
 function App() {
+  const [{user}, dispatch] = useStateValue();
   return (
-    <UserProvider>
-    <Router>
-    <Navbar/>
-    <div className="App">
-        <Switch>
-          <Route exact path="/">
-            <Login/>
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-        </Switch>
+    <div className="app">
+      {!user ? (
+        <Login/>
+      ) : (
+        <>
+          <Header/>
+
+          <div className="app__body">
+              <Feed/>
+            </div>
+        </>
+      )}
+      
     </div>
-    </Router>
-    </UserProvider>
+
   );
 }
 
