@@ -63,3 +63,10 @@
     border-radius: 10px;
     cursor: pointer;
 }
+
+.post__comments {
+    border-top: 1px solid lightgray;
+    flex: 0 auto;
+    display: flex;
+    flex-direction: column;
+}

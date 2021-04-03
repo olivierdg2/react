@@ -5,7 +5,7 @@ import "./MessageSender.css";
 import firebase from "firebase";
 import db from "../services/firebase"
 
-function MessageSender() {
+function CommentSender({id}) {
     const [{ user }, dispatch] = useStateValue();
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
@@ -13,14 +13,13 @@ function MessageSender() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (input !== "" || imageUrl !== ""){
-            db.collection('posts').add({
+            db.collection('comments').add({
                 message: input,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 profilePic: user.photoURL,
                 username: user.displayName,
                 image: imageUrl,
-                likedBy: [],
-                uid: user.uid
+                post_id:id
             })
     
             //Reset the values when refresh
@@ -60,4 +59,4 @@ function MessageSender() {
     </div>;
 }
 
-export default MessageSender;
+export default CommentSender;

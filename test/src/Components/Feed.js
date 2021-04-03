@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Feed.css";
 import MessageSender from "./MessageSender";
 import Post from "./Post";
-import db from "../services/firebase"
+import db from "../services/firebase";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
@@ -27,7 +27,6 @@ function Feed() {
                 username = {post.data.username}
                 image = {post.data.image}
                 likedBy = {post.data.likedBy}
-                comments = {post.data.comments}
             />
         ))}
     </div>

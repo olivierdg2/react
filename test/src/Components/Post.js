@@ -1,13 +1,16 @@
 import { Avatar } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import "./Post.css";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ChatBubbleOutLineIcon from "@material-ui/icons/ChatBubbleOutline"
 import { useStateValue } from "../StateProvider";
 import db from "../services/firebase";
+import Comments from "./Comments";
 
-function Post({id, profilePic, image, username, timestamp, message, likedBy, comments}) {
+function Post({id, profilePic, image, username, timestamp, message, likedBy}) {
     const [{ user }, dispatch] = useStateValue();
+    const [comments, setComments] = useState(false);
+
     const like = () => {   
         var check = false;
         likedBy.forEach(element => {
@@ -32,6 +35,16 @@ function Post({id, profilePic, image, username, timestamp, message, likedBy, com
             db.collection("posts").doc(id.toString()).update({likedBy: likedBy});
         };
     };
+
+    const showComments = () => {
+        if (comments === false){
+            setComments(true);
+        }
+        else{
+            setComments(false);
+        }
+    };
+    
     return (
         <div className="post">
             <div className="post__top">
@@ -63,11 +76,18 @@ function Post({id, profilePic, image, username, timestamp, message, likedBy, com
                     <ThumbUpIcon/>
                     <p>Like</p>
                 </div>
-                <div className="post__option">
+                <div className="post__option" onClick={showComments}>
                     <ChatBubbleOutLineIcon/>
                     <p>Comment</p>
                 </div>
             </div>
+            {!comments ? (
+                <div/>
+            ) : (
+                <>
+                <Comments id={id}/>
+                </>
+            )}
 
         </div>
     )
