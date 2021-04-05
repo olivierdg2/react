@@ -16,11 +16,16 @@
     width: 100%;
 }
 
-.comment_right_top {
-    display: flex;
-    flex: 1;
+.comment_right_top > h3 {
+    font-size: medium;
 }
 
 .comment_right_top > p {
-    margin-left:10px;
+    font-size: small;
+    color: gray;
+}
+
+.comment_content > img {
+    height: 100%;
+    width: 100%;
 }

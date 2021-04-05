@@ -28,7 +28,13 @@ function Comments({id}) {
                         </div>
                         <div className="comment_content">
                             <p>{comment.data.message}</p>
-                            <img src={comment.data.image} alt="" />
+                            {!comment.data.image ? (
+                                <div/>
+                            ) : (
+                                <>
+                                <img src={comment.data.image} alt="" />
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 .header { 
-    padding: 15px 200px;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
     position: sticky;
@@ -22,12 +22,24 @@
     padding: 10px;
     margin-left: 10px;
     border-radius: 999px;
+    width: 20%;
 }
 
-.header__input > input {
+.searchbar {
     border: none;
     background-color: transparent;
     outline-width: 0;
+    width: 100%;
+}
+
+.user__searcher {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user__searcher_username {
+    padding-left: 10px;
 }
 
 .header__center{

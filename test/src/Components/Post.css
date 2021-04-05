@@ -17,11 +17,11 @@
     margin-right: 10px;
 }
 
-.post__topInfo > h3 {
+.post__topinfo > h3 {
     font-size: medium;
 }
 
-.post__topInfo > p {
+.post__topinfo > p {
     font-size: small;
     color: gray;
 }

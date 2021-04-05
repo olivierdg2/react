@@ -19,7 +19,7 @@ function CommentSender({id}) {
                 profilePic: user.photoURL,
                 username: user.displayName,
                 image: imageUrl,
-                post_id:id
+                post_id: id
             })
     
             //Reset the values when refresh
