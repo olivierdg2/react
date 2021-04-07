@@ -10,8 +10,12 @@ function MessageSender() {
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
+    //Send message
     const handleSubmit = (e) => {
+        //Prevent form to refresh the page
         e.preventDefault();
+        
+        //Prevent from spaming useless empty messages
         if (input !== "" || imageUrl !== ""){
             db.collection('posts').add({
                 message: input,
@@ -23,14 +27,16 @@ function MessageSender() {
                 uid: user.uid
             })
     
-            //Reset the values when refresh
+            //Reset the inputs values
             setInput("");
             setImageUrl("");
         }
     };
-    const handleChange = (e) => {
-        setInput(e.target.value);
-        if (e.target.value != ""){
+
+    //Disable send button when the message is empty 
+    const handleChange = (message) => {
+        setInput(message);
+        if (message != ""){
             document.getElementById("sender").disabled = false;
         }
         else {
@@ -44,7 +50,7 @@ function MessageSender() {
             <form>
                 <input 
                 value={input}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e.target.value)}
                 className="messageSender__input"
                 placeholder={"Write a message"}/>
 

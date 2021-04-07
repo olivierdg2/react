@@ -7,3 +7,40 @@
     align-items: center;
     margin: 0px 20% 20%;
 }
+
+.feed__header {
+    display: flex;
+    flex-direction: row;
+}
+
+.user__info {
+    margin-top: 30px;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
+    width: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 15px;
+}
+
+.follow__button {
+    padding: 15px;
+}
+
+.post__top {
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 15px;
+}
+
+.user__avatar {
+    margin-right: 10px;
+}
+
+.user__info > div {
+    font-size: medium;
+}

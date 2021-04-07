@@ -8,7 +8,8 @@ import firebase from "firebase/app";
 
 function Login() {
     const [state, dispatch] = useStateValue();
-    
+    const [mode, setMode] = useStateValue();
+    //Google sign in 
     const signIn = () => {
         auth
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -16,6 +17,7 @@ function Login() {
             auth
             .signInWithPopup(provider)
             .then((result) => {
+                //Check if the user_info are stored in the db, if not, add it
                 db.collection('users_info')
                 .where("uid","==",result.user.uid.toString())
                 .onSnapshot((snapshot) => {
@@ -24,19 +26,29 @@ function Login() {
                             uid: result.user.uid,
                             profilePic: result.user.photoURL,
                             username: result.user.displayName,
-                            follows: []})
+                            follows: [result.user.uid]
+                        })
                     }
                 });
+                //Set user state value to the sign in result
                 dispatch({
                     type: actionTypes.SET_USER,
                     user: result.user,
                 });
+                setMode({
+                    type: actionTypes.SET_MODE,
+                    mode: "home",
+                });
+                //Set user local storage variable to current user -> the connexion stays after closing window
                 localStorage.setItem("user", JSON.stringify(result.user))
+                //Set follows state value to the follows related to the user_info
             })
             .catch((error) => alert(error.message));
         })
         .catch((error) => alert(error.message));
     };
+
+
     return (
         <div className="login">
             <div className="login__logo">

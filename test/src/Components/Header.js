@@ -15,16 +15,18 @@ import db from "../services/firebase";
 
 function Header() {
     const [{user }, dispatch] = useStateValue();
+    const [{mode }, setMode] = useStateValue();
     const [users, setUsers] = useState([]);
 
+    //At each load, set the users in the search bar
     useEffect(() => {
         db.collection('users_info')
         .onSnapshot((snapshot) => 
             setUsers(snapshot.docs.map( doc => ({ id: doc.id, data: doc.data() })))
         );
-        console.log(users)
     }, []);
 
+    //Log out button
     const logOut = () => {
         localStorage.clear();
         dispatch({
@@ -33,9 +35,22 @@ function Header() {
           });
     };
 
-    const goto = () => {
-        console.log("ok")
-    };
+    //Home button
+    const home = () => {
+        setMode({
+            type: actionTypes.SET_MODE,
+            mode: "home"
+          });
+    }
+
+    //Follows buttons
+    const follows = () => {
+        setMode({
+            type: actionTypes.SET_MODE,
+            mode: "follows"
+          });
+    }
+
     return (
         <div className="header">
             <div className="header__left"></div>
@@ -53,17 +68,33 @@ function Header() {
                                     </div>
                                 );
                             }}
+                            onSelect={(event, newValue) => {
+                                if (newValue != null){
+                                    setMode({
+                                        type: actionTypes.SET_MODE,
+                                        mode: newValue.data
+                                      });
+                                }
+                              }}
+                            onChange={(event, newValue) => {
+                                if (newValue != null){
+                                    setMode({
+                                        type: actionTypes.SET_MODE,
+                                        mode: newValue.data
+                                        });
+                                }
+                                }}
                             id="disable-clearable"
-                            renderInput={(params) => <TextField {...params} label="Search on" margin="normal" />}
+                            renderInput={(params) => <TextField {...params} label="Search on Olbook" margin="normal"/>}
                         />
                     </div>
                 </div>
             <div className="header__center">
                 <div className="header__option
-                header__option--active">
+                header__option--active" onClick={home}>
                     <HomeIcon fontSize="large"/>
                 </div>
-                <div className="header__option">
+                <div className="header__option" onClick={follows}>
                     <SupervisedUserCirecleIcon fontSize="large"/>
                 </div>
             </div>
