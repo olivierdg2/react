@@ -29,7 +29,7 @@ function CommentSender({id}) {
     };
     const handleChange = (e) => {
         setInput(e.target.value);
-        if (e.target.value != ""){
+        if (e.target.value !== ""){
             document.getElementById("sender").disabled = false;
         }
         else {

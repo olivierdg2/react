@@ -7,8 +7,7 @@ import { actionTypes } from "../reducer";
 import firebase from "firebase/app";
 
 function Login() {
-    const [state, dispatch] = useStateValue();
-    const [mode, setMode] = useStateValue();
+    const [{state}, dispatch] = useStateValue();
     //Google sign in 
     const signIn = () => {
         auth
@@ -21,7 +20,7 @@ function Login() {
                 db.collection('users_info')
                 .where("uid","==",result.user.uid.toString())
                 .onSnapshot((snapshot) => {
-                    if (snapshot.docs.length == 0){
+                    if (snapshot.docs.length === 0){
                         db.collection('users_info').add({
                             uid: result.user.uid,
                             profilePic: result.user.photoURL,
@@ -35,10 +34,6 @@ function Login() {
                     type: actionTypes.SET_USER,
                     user: result.user,
                 });
-                setMode({
-                    type: actionTypes.SET_MODE,
-                    mode: "home",
-                });
                 //Set user local storage variable to current user -> the connexion stays after closing window
                 localStorage.setItem("user", JSON.stringify(result.user))
                 //Set follows state value to the follows related to the user_info
@@ -47,7 +42,6 @@ function Login() {
         })
         .catch((error) => alert(error.message));
     };
-
 
     return (
         <div className="login">

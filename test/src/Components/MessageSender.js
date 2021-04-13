@@ -3,10 +3,10 @@ import React, {useState} from "react";
 import { useStateValue } from "../StateProvider";
 import "./MessageSender.css";
 import firebase from "firebase";
-import db from "../services/firebase"
+import { actionTypes } from "../reducer";
 
 function MessageSender() {
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user,posts }, dispatch] = useStateValue();
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
@@ -17,16 +17,21 @@ function MessageSender() {
         
         //Prevent from spaming useless empty messages
         if (input !== "" || imageUrl !== ""){
-            db.collection('posts').add({
+            const time = new Date().getTime();
+            const post = {
                 message: input,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                timestamp: time,
                 profilePic: user.photoURL,
                 username: user.displayName,
                 image: imageUrl,
                 likedBy: [],
                 uid: user.uid
-            })
-    
+            }
+            dispatch({
+                type: actionTypes.ADD_POST,
+                post: post,
+              });
+            console.log(posts)
             //Reset the inputs values
             setInput("");
             setImageUrl("");
@@ -36,7 +41,7 @@ function MessageSender() {
     //Disable send button when the message is empty 
     const handleChange = (message) => {
         setInput(message);
-        if (message != ""){
+        if (message !== ""){
             document.getElementById("sender").disabled = false;
         }
         else {

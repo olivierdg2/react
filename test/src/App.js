@@ -6,12 +6,11 @@ import Login from "./Components/Login";
 import { useStateValue } from "./StateProvider";
 import { actionTypes } from "./reducer";
 import UserFeed from "./Components/UserFeed";
-import db from "./services/firebase";
+import Global_feed from "./Components/Global_feed";
+import Follows from "./Components/follows";
 
 function App() {
-  const [{user}, dispatch] = useStateValue();
-  const [{mode}, setMode] = useStateValue();
-  const [{follows}, setFollows] = useStateValue([]);
+  const [{user,mode}, dispatch] = useStateValue();
   //Get the user in the local storage 
   useEffect (() => {
     const result = JSON.parse(localStorage.getItem('user'));
@@ -19,52 +18,41 @@ function App() {
       type: actionTypes.SET_USER,
       user: result,
     });
-    if (result != null){
-      db.collection("users_info")
-      .where("uid","==",result.uid.toString())
-      .onSnapshot((snapshot) => 
-          setFollows({
-              type: actionTypes.SET_FOLLOWS,
-              follows: snapshot.docs[0].data().follows,
-          })
-      );
-    }
-    else {
-      try {
-        db.collection("users_info")
-        .where("uid","==",user.uid.toString())
-        .onSnapshot((snapshot) => 
-            setFollows({
-                type: actionTypes.SET_FOLLOWS,
-                follows: snapshot.docs[0].data().follows,
-            })
-        );
-      }
-      catch {
-
-      }
-    }
   }, []);
   return (
     <div className="app">
       {!user ? (
         <Login/>
-      ) : (mode == "home" ? (
+      ) : (mode === "home" ? (
           <>
             <Header/>
             <div className="app__body">
                 <Feed/>
             </div>
           </>
-          ) : (
+          ) : (mode ==="global" ? (
             <>
+              <Header/>
+              <div className="app__body">
+                  <Global_feed/>
+              </div>
+            </>
+            ) /*: (mode==="follows" ?(
+              <>
+                <Header/>
+                <div className="app__body">
+                    <Follows/>
+                </div>
+              </>
+            )*/ : (
+              <>
               <Header/>
               <div className="app__body">
                   <UserFeed/>
               </div>
-            </>
+              </>
+            )
           )
-
       )}
       
     </div>

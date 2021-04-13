@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Feed.css";
-import MessageSender from "./MessageSender";
 import Post from "./Post";
 import db from "../services/firebase";
 import { useStateValue } from "../StateProvider";
@@ -9,12 +8,12 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CheckIcon from '@material-ui/icons/Check';
 
 function UserFeed() {
-    const [{user}, dispatch] = useStateValue();
+    const [{user,mode}, dispatch] = useStateValue();
     const [posts, setPosts] = useState([]);
-    const [{mode}, setMode] = useStateValue();
     const [status, setStatus] = useState();
 
     useEffect(() => {
+        console.log(mode.uid)
         db.collection('posts')
         .where("uid","==",mode.uid)
         .onSnapshot((snapshot) => {
@@ -37,7 +36,7 @@ function UserFeed() {
 
             }
         });
-    }, [mode]);
+    },[mode]);
     
     const follow = async () => {
         var follows = db.collection('users_info').where("uid","==",user.uid).get()
@@ -70,7 +69,7 @@ function UserFeed() {
                 <Avatar src={mode.profilePic} className="user__avatar"/>
                 <div>{mode.username}'s posts</div>
                 <div>
-                {user.uid == mode.uid ? (
+                {user.uid === mode.uid ? (
                     <div></div>
                 ) : (status ? (
                                 <CheckIcon onClick={follow}/>

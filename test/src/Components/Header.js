@@ -8,14 +8,13 @@ import AddIcon from "@material-ui/icons/Add";
 import NotificationActiveIcon from "@material-ui/icons/NotificationsActive";
 import { useStateValue } from "../StateProvider";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Login from "./Login";
 import { actionTypes } from "../reducer";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import db from "../services/firebase";
+import LanguageIcon from '@material-ui/icons/Language';
 
 function Header() {
-    const [{user }, dispatch] = useStateValue();
-    const [{mode }, setMode] = useStateValue();
+    const [{user,mode }, dispatch] = useStateValue();
     const [users, setUsers] = useState([]);
 
     //At each load, set the users in the search bar
@@ -37,15 +36,23 @@ function Header() {
 
     //Home button
     const home = () => {
-        setMode({
+        dispatch({
             type: actionTypes.SET_MODE,
             mode: "home"
           });
     }
 
+    //Global_feed button
+    const global = () => {
+        dispatch({
+            type: actionTypes.SET_MODE,
+            mode: "global"
+            });
+    }
+
     //Follows buttons
     const follows = () => {
-        setMode({
+        dispatch({
             type: actionTypes.SET_MODE,
             mode: "follows"
           });
@@ -70,7 +77,7 @@ function Header() {
                             }}
                             onSelect={(event, newValue) => {
                                 if (newValue != null){
-                                    setMode({
+                                    dispatch({
                                         type: actionTypes.SET_MODE,
                                         mode: newValue.data
                                       });
@@ -78,7 +85,7 @@ function Header() {
                               }}
                             onChange={(event, newValue) => {
                                 if (newValue != null){
-                                    setMode({
+                                    dispatch({
                                         type: actionTypes.SET_MODE,
                                         mode: newValue.data
                                         });
@@ -89,26 +96,74 @@ function Header() {
                         />
                     </div>
                 </div>
-            <div className="header__center">
-                <div className="header__option
-                header__option--active" onClick={home}>
-                    <HomeIcon fontSize="large"/>
-                </div>
-                <div className="header__option" onClick={follows}>
-                    <SupervisedUserCirecleIcon fontSize="large"/>
-                </div>
-            </div>
 
+            {mode === "home" ? (
+                <div className="header__center">
+                <div className="header__option header__option--active" onClick={home}>
+                        <HomeIcon fontSize="large"/>
+                    </div>
+                    <div className="header__option" onClick={global}>
+                        <LanguageIcon fontSize="large"/>
+                    </div>
+                    {/*
+                    <div className="header__option" onClick={follows}>
+                        <SupervisedUserCirecleIcon fontSize="large"/>
+                    </div>
+                    */}
+
+                </div>
+            ):(mode==="global" ?(
+                <div className="header__center">
+                    <div className="header__option" onClick={home}>
+                        <HomeIcon fontSize="large"/>
+                    </div>
+                    <div className="header__option header__option--active" onClick={global}>
+                        <LanguageIcon fontSize="large"/>
+                    </div>
+                    {/*
+                    <div className="header__option" onClick={follows}>
+                        <SupervisedUserCirecleIcon fontSize="large"/>
+                    </div>
+                    */}
+                </div>
+            ):(mode ==="follows"?(
+                <div className="header__center">
+                    <div className="header__option" onClick={home}>
+                        <HomeIcon fontSize="large"/>
+                    </div>
+                    <div className="header__option" onClick={global}>
+                        <LanguageIcon fontSize="large"/>
+                    </div>
+                    {/*
+                    <div className="header__option header__option--active"" onClick={follows}>
+                        <SupervisedUserCirecleIcon fontSize="large"/>
+                    </div>
+                    */}
+                </div>
+            ):(
+                <div className="header__center">
+                    <div className="header__option" onClick={home}>
+                        <HomeIcon fontSize="large"/>
+                    </div>
+                    <div className="header__option" onClick={global}>
+                        <LanguageIcon fontSize="large"/>
+                    </div>
+                    {/*
+                    <div className="header__option" onClick={follows}>
+                        <SupervisedUserCirecleIcon fontSize="large"/>
+                    </div>
+                    */}
+                </div> 
+            )
+            )
+            )}
 
             <div className="header__right">
                 <div className="header__info">
                     <Avatar src={user.photoURL}/>
                     <h4>{user.displayName}</h4>
                 </div>
-
-                <IconButton>
-                    <AddIcon/>
-                </IconButton>
+                
                 <IconButton>
                     <NotificationActiveIcon/>
                 </IconButton>

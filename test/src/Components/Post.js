@@ -52,7 +52,7 @@ function Post({id, profilePic, image, username, timestamp, message, likedBy}) {
                 className="post__avatar"/>
                 <div className="post__topinfo">
                     <h3>{username}</h3>
-                    <p>{new Date(timestamp?.toDate()).toUTCString()}</p>
+                    <p>{timestamp ? (new Date(timestamp).toUTCString()):(<></>)}</p>
                 </div>
             </div>
 
