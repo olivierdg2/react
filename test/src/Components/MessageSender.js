@@ -1,5 +1,5 @@
 import { Avatar } from "@material-ui/core";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useStateValue } from "../StateProvider";
 import "./MessageSender.css";
 import firebase from "firebase";
@@ -9,6 +9,16 @@ function MessageSender() {
     const [{ user,posts }, dispatch] = useStateValue();
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const [input_invalid, setInput_invalid] = useState(true);
+
+    useEffect(() => {
+        if (input.trim().length == 0 && imageUrl.trim().length == 0){
+            setInput_invalid(true);
+        }
+        else {
+            setInput_invalid(false);
+        }
+    }, [input,imageUrl]);
 
     //Send message
     const handleSubmit = (e) => {
@@ -38,24 +48,13 @@ function MessageSender() {
         }
     };
 
-    //Disable send button when the message is empty 
-    const handleChange = (message) => {
-        setInput(message);
-        if (message !== ""){
-            document.getElementById("sender").disabled = false;
-        }
-        else {
-            document.getElementById("sender").disabled = true;
-        }
-    };
-
     return <div className="messageSender">
         <div className="messageSender__top">
             <Avatar src={user.photoURL}/>
             <form>
                 <input 
                 value={input}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
                 className="messageSender__input"
                 placeholder={"Write a message"}/>
 
@@ -64,7 +63,7 @@ function MessageSender() {
                 onChange={(e) => setImageUrl(e.target.value)}
                 placeholder="image URL (Optional)"/>
 
-                <button id="sender" type="submit" onClick={handleSubmit}>Send</button>
+                <button id="sender" type="submit" disabled={input_invalid} onClick={handleSubmit}>Send</button>
             </form>
         </div>
 
