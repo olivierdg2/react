@@ -60,7 +60,6 @@ function Header() {
 
     return (
         <div className="header">
-            <div className="header__left"></div>
                 <div className="header__input">
                     <SearchIcon/>
                     <div className="searchbar">

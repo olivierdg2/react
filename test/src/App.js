@@ -8,6 +8,7 @@ import { actionTypes } from "./reducer";
 import UserFeed from "./Components/UserFeed";
 import Global_feed from "./Components/Global_feed";
 import Follows from "./Components/follows";
+import Grid from "@material-ui/core/Grid";
 
 function App() {
   const [{user,mode}, dispatch] = useStateValue();
@@ -20,7 +21,7 @@ function App() {
     });
   }, []);
   return (
-    <div className="app">
+    <div className="app" style={{backgroundcolor: 'red'}}>
       {!user ? (
         <Login/>
       ) : (mode === "home" ? (
@@ -47,9 +48,9 @@ function App() {
             )*/ : (
               <>
               <Header/>
-              <div className="app__body">
-                  <UserFeed/>
-              </div>
+              <Grid>
+              <UserFeed/>
+              </Grid>
               </>
             )
           )

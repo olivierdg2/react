@@ -1,11 +1,11 @@
 .feed {
     flex: 1;
-    padding: 30px 150px;
+    padding: 0px 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0px 20% 20%;
+    max-width: 500px;
 }
 
 .feed__header {
